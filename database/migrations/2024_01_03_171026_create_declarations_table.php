@@ -13,6 +13,7 @@ return new class extends Migration
             $table->id();
             $table->string('receipt_no', 10);
             $table->date('declared_date')->nullable();
+            $table->string('name');
             $table->string('post');
             $table->string('schedule')->nullable();
             $table->string('office_location')->nullable();

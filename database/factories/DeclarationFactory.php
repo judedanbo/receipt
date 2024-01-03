@@ -19,6 +19,7 @@ class DeclarationFactory extends Factory
         return [
             'receipt_no' => $this->faker->regexify('[A-Za-z0-9]{10}'),
             'declared_date' => $this->faker->date(),
+            'name' => $this->faker->name(),
             'post' => $this->faker->jobTitle(),
             'schedule' => $this->faker->jobTitle(),
             'office_location' => $this->faker->city(),

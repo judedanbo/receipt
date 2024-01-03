@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -41,5 +42,26 @@ class Staff extends Model
     public function offices(): BelongsToMany
     {
         return $this->belongsToMany(Office::class);
+    }
+
+    public static function getForm(): array {
+        return [
+            TextInput::make('staff_number')
+                ->required()
+                ->maxLength(10),
+            TextInput::make('title')
+                ->required()
+                ->maxLength(10),
+            TextInput::make('surname')
+                ->required()
+                ->maxLength(100),
+            TextInput::make('other_names')
+                ->required()
+                ->maxLength(100),
+            TextInput::make('email')
+                ->email()
+                ->required()
+                ->maxLength(255),
+        ];
     }
 }
