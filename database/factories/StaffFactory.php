@@ -15,9 +15,9 @@ class StaffFactory extends Factory
     {
         return [
             'staff_number' => $this->faker->regexify('[A-Za-z0-9]{10}'),
-            'title' => $this->faker->sentence(4),
-            'surname' => $this->faker->regexify('[A-Za-z0-9]{100}'),
-            'other_names' => $this->faker->regexify('[A-Za-z0-9]{100}'),
+            'title' => $this->faker->title(),
+            'surname' => $this->faker->lastName(),
+            'other_names' => $this->faker->firstName(),
             'email' => $this->faker->safeEmail(),
         ];
     }

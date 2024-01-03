@@ -15,7 +15,7 @@ class OfficeFactory extends Factory
     {
         return [
             'code' => $this->faker->regexify('[A-Za-z0-9]{4}'),
-            'name' => $this->faker->name(),
+            'name' => $this->faker->city(),
         ];
     }
 }

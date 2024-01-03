@@ -12,7 +12,7 @@ return new class extends Migration
         Schema::create('declarations', function (Blueprint $table) {
             $table->id();
             $table->string('receipt_no', 10);
-            $table->string('declared_date')->nullable();
+            $table->date('declared_date')->nullable();
             $table->string('post');
             $table->string('schedule')->nullable();
             $table->string('office_location')->nullable();
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('submitted_by')->nullable();
             $table->string('submitted_by_contact')->nullable();
             $table->string('qr_code', 25, )->nullable();
-            $table->string('synced')->nullable();
+            $table->boolean('synced')->nullable();
             $table->foreignId('office_id')->nullable();
             $table->foreignId('user_id')->nullable();
             $table->string('old_received_by')->nullable();

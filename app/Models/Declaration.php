@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 
 class Declaration extends Model
@@ -37,6 +38,9 @@ class Declaration extends Model
         'user_id' => 'integer',
         'staff_id' => 'integer',
     ];
+    protected $hidden = [
+        'synced'
+    ];
     protected static $logAttributes = [
         'receipt_no',
         'declared_date',
@@ -59,12 +63,12 @@ class Declaration extends Model
         'old_declaration_id',
     ];
     protected static $logOnlyDirty = true;
-    
-    protected $hidden = [
-        'synced'
-    ];
 
-
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults();
+    }
+  
 
     public function office(): BelongsTo
     {
