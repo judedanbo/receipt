@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -62,6 +63,14 @@ class Staff extends Model
                 ->email()
                 ->required()
                 ->maxLength(255),
+            Select::make('offices')
+                ->relationship('offices', 'name')
+                ->createOptionForm(Office::getForm())
+                ->editOptionForm(Office::getForm())
+                ->options(Office::all()->pluck( 'name', 'id'))
+                ->searchable()
+                ->preload()
+                ->required(),
         ];
     }
 }

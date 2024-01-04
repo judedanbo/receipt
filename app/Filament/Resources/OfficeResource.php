@@ -7,10 +7,12 @@ use App\Filament\Resources\OfficeResource\RelationManagers;
 use App\Models\Office;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class OfficeResource extends Resource
@@ -32,6 +34,10 @@ class OfficeResource extends Resource
                 Tables\Columns\TextColumn::make('code')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make
+                ('declarations_count')->counts('declarations')
+                    ->label('No. of Declarations')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -64,7 +70,8 @@ class OfficeResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\DeclarationsRelationManager::class,
+            RelationManagers\StaffRelationManager::class,
         ];
     }
 

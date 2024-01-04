@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -41,7 +42,7 @@ class Office extends Model
 
     public function staff(): BelongsToMany
     {
-        return $this->belongsToMany(Staff::class);
+        return $this->belongsToMany(Staff::class)->latest();
     }
 
     public static function getForm(): array {
@@ -52,6 +53,13 @@ class Office extends Model
             TextInput::make('name')
                 ->required()
                 ->maxLength(40),
+            // Select::make('staff')
+            //     ->relationship('staff', 'full_name')
+            //     ->options(Staff::->all()->pluck('full_name', 'id'))
+            //     ->searchable()
+            //     ->preload()
+            //     ->
+            //     ,
         ];
     }
 }

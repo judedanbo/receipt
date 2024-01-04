@@ -9,4 +9,10 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateStaff extends CreateRecord
 {
     protected static string $resource = StaffResource::class;
+
+    protected function afterCreate(): void
+    {
+        // TODO Email staff
+        //TODO Create User for staff 
+    }
 }

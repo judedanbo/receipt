@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('post');
             $table->string('schedule')->nullable();
             $table->string('office_location')->nullable();
-            $table->string('address')->nullable();
+            $table->text('address')->nullable();
             $table->string('contact')->nullable();
             $table->string('witness')->nullable();
             $table->string('witness_occupation')->nullable();

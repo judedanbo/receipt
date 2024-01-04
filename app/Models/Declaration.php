@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Filament\Forms\Components\Card;
 use Filament\Forms\Components\DatePicker;
+use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -21,6 +24,7 @@ class Declaration extends Model
     protected $fillable = [
         'receipt_no',
         'declared_date',
+        'name',
         'post',
         'schedule',
         'office_location',
@@ -91,91 +95,85 @@ class Declaration extends Model
         return $this->belongsTo(User::class);
     }
 
+
+    public function sync(): void{
+        //  TODO implement sync declaration
+        // $this->;
+    }
+
     public static function getForm(): array {
         return [
-            // TextInput::make('receipt_no')
-            //     ->required()
-            //     ->maxLength(10),
-            DatePicker::make('declared_date')
-                ->autofocus()
-                ->default(now())
-                ->columns(['sm' => 1, 'md' => 2])
-                ->columnStart(['sm' => 1, 'md' =>2, 'lg' => 3,])
-                ->native(false),
-            Section::make("Declarant Name")
-                ->columns(['sm' => 1, 'md' => 2 ])
-                ->columnStart(['sm' => 1, ])
-                ->schema([
-                    TextInput::make('name')
-                        ->label("Declarant's full name with title")
-                        ->required()
-                        ->maxLength(255),
-                ]),  
-                Section::make("Witness")
-                ->columnSpan(['sm' => 1, 'md' => 2])
-                ->columnStart(['lg' => 3, ])
-                ->collapsible()
-                ->schema([
-                TextInput::make('witness')
-                    ->label('Witness Name')
-                    ->maxLength(255),
-                TextInput::make('witness_occupation')
-                    ->maxLength(255),
-            ])
-                ->columns(2),
-            Section::make("Post / Schedule")
-                ->columns(['sm' => 1, 'md' => 2, ])
-              
-                ->collapsible()
-                ->schema([
-                    TextInput::make('post')
-                        ->required()
-                        ->maxLength(255),
-                    TextInput::make('schedule')
-                        ->maxLength(255),
-                    TextInput::make('office_location')
-                        ->columnSpanFull()
-                        ->maxLength(255),
-                ])
-                ->columns(2),
-                Section::make("Address / Contact")
-                    ->columns(['sm' => 1, 'md' => 2])
-                    ->columnStart(['lg' => 3])
-                    ->collapsible()
+            Grid::make([
+                'default' => 1,
+                'md' => 3,
+                'lg' => 4,
+                'xl' => 6,
+            ])->schema([
+                DatePicker::make('declared_date')
+                    ->default(now())
+                    ->native(false)
+                    ->columnStart([ 'md' => 3, 'lg' => 4, 'xl' => 6 ])
+                    // ->columnSpan()
+                    ,
+                Section::make('Declarant Name')
+                    // ->columnSpan(['2xl' => 4])
+                    // ->columnSpan(['sm' => 2, 'md' => 3, 'xl' => 2])
+                    ->schema([
+                        TextInput::make('name')
+                            ->columnSpanFull()
+                            ->required()
+                            ->maxLength(255),
+                    ]),
+                Section::make("Post / Schedule")
+                    ->columns([ 'md' => 2, 'xl' => 3,  ])
+                    ->columnSpan([ 'md' => 3, 'lg' => 2, 'xl' => 3, ])
+                    ->schema([
+                        TextInput::make('post')
+                            ->columnSpan(['default' => 1, 'sm' => 1, 'lg' => 2, 'xl' => 4, ])
+                            ->required()
+                            ->maxLength(255),
+                        TextInput::make('schedule')
+                            ->columnSpan(['default' => 1, 'sm' => 1, 'lg' => 2, 'xl' => 4,])
+                            ->maxLength(255),
+                        TextInput::make('office_location')
+                        ->columnSpan(['sm' => 2, 'lg' => 3, 'xl' => 4, ])
+                            ->maxLength(255),
+                    ]),
+                
+                Section::make('Contact Address')
+                    // ->columns(['sm' => 2, 'md' => 4])
+                    ->columnSpan(['sm' => 2, 'md' => 3, 'lg' => 2, 'xl' => 3,  ])
                     ->schema([
                         TextInput::make('contact')
+                            ->columnSpan(['default' => 1, 'sm' => 2, 'xl' => 2])
                             ->maxLength(255),
-                        TextInput::make('address')
-                            ->columnSpan(2)
+                        Textarea::make('address')
+                            ->columnSpan(['default' => 1, 'sm' => 2, 'xl' => 2])
                             ->maxLength(255),
-                ])->columns(2),
-                
-                Section::make("Submitted by")
-                    ->columnSpan(['sm' => 1, 'md' => 2])
-                    ->columnSpan(['lg' => 4])
-                    ->collapsible()
+                    ]),
+                Section::make('Witness')
+                    // ->columns(['sm' => 2, 'md' => 2,])
+                    ->columnSpan(['sm' => 2,  'lg' => 2,  'xl' => 3])
                     ->schema([
-                    TextInput::make('submitted_by')
-                        ->maxLength(255),
-                    TextInput::make('submitted_by_contact')
-                        ->maxLength(255),
-                ])->columns(2),
-            // TextInput::make('qr_code')
-            //     ->maxLength(25),
-            // Toggle::make('synced'),
-            // Select::make('office_id')
-            //     ->relationship('office', 'name'),
-            // Select::make('user_id')
-            //     ->relationship('user', 'name'),
-            // TextInput::make('old_received_by')
-            //     ->maxLength(255),
-            // TextInput::make('old_serial_no')
-            //     ->maxLength(255),
-            // TextInput::make('old_declaration_id')
-            //     ->maxLength(255),
-            // Select::make('staff_id')
-            //     ->relationship('staff', 'title')
-            //     ->required(),
-        ];
+                        TextInput::make('witness')
+                                ->columnSpan(['default' => 1, 'sm' => 2, 'xl' => 4])
+                            ->maxLength(255),
+                        TextInput::make('witness_occupation')
+                                ->columnSpan(['default' => 1, 'sm' => 2, 'xl' => 4])
+                            ->maxLength(255),
+                    ]),
+                Section::make('Submitted by')
+                    // ->columns(['sm' => 2, 'md' => 3, 'xl' => 1])
+                    ->columnSpan(['sm' => 2, 'md' => 1, 'lg' => 2,  'xl' => 3,  ])
+                    ->schema([
+                        TextInput::make('submitted_by')
+                            ->columnSpan(['default' => 1, 'sm' => 2, 'xl' => 4])
+                            ->maxLength(255),
+                        TextInput::make('submitted_by_contact')
+                            ->columnSpan(['default' => 1, 'sm' => 2, 'xl' => 4])
+                            ->maxLength(255),
+                    ]),
+                ])
+                ];
     }
 }

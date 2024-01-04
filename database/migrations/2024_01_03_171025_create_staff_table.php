@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('surname', 100);
             $table->string('other_names', 100);
             $table->string('email');
+            $table->string('full_name')->virtualAs('concat(surname, \' \', other_names)');
             $table->timestamps();
             $table->softDeletes();
         });
